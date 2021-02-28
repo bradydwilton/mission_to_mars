@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission to Mars</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
+
+<body>
+    <div class="container">
+        <div class="jumbotron text-center">
+            <h1 class="text-danger">Mission to Mars</h1>
+            <p>
+                <a class="btn btn-warning btn-lg" href="/scrape" role="button">Scrape New
+                    Data</a>
+            </p>
+        </div>
+        <!--Mars News-->
+        <div class="row" id="mars-news">
+            <div class="col-xs-12">
+                <div class="media">
+                    <div class="text-center media-body">
+                        <h2 class='text-danger'>Latest Mars News</h2>
+                        <h4 class='media-heading'>{{mars.news_title}}</h4>
+                        <p>{{mars.news_paragraph}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Featured Image-->
+        <div class="row" id='mars-featured-image'>
+            <div class='col-xs-12 col-md-8'>
+                <h2 class='text-center text-danger'>Mars Featured Image</h2>
+                <img src="{{mars.featured_image}}" class="img-responsive" alt="Responsive image" />
+            </div>
+            <!--Mars Facts-->
+            <div class='col-xs-12 col-md-3'>
+                <div class="row" id='mars-facts'>
+                    <h2 class='text-center text-danger'>Mars vs. Earth</h2>
+                    {{ mars.comp | safe }}
+                </div>
+                <div class="row" id='mars-size-img'>
+                    <h4 class='text-center text-danger'>Size Comparison (Mars vs. Earth)</h4>
+                    <img src="{{mars.mars_size_img}}" class="img-responsive" alt="Responsive image" />
+                </div>
+            </div>
+        </div>
+        <div class='row' id='mars-hemispheres'>
+            <div class='text-center page-header'>
+                <h2 class='text-danger'>Mars Hemispheres</h2>
+            </div>
+        </div>
+        <div class='row' id='hemi-images'>
+            {% for hemisphere in mars.hemispheres %}
+            <div class="mx-auto d-block col-xs-6 col-md-3">
+                <a class="img-thumbnail" href={{hemisphere.img_link}} target="_blank">
+                    <img src="{{hemisphere.img_link}}" class="mx-auto d-block img-responsive" alt="...">
+                    <div class="text-center text-danger caption">
+                        <h3>{{hemisphere.title}}</h3>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+</body>
+
+</html>

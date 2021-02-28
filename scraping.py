@@ -19,6 +19,9 @@ def scrape_all():
         'news_paragraph': news_p,
         'featured_image': featured_image(browser),
         'facts': mars_facts(browser),
+        'comp': mars_earth_comp(browser),
+        'mars_size_img': mars_earth_image(browser),
+        'hemispheres': hemi_photos(browser),
         'last_modified': dt.now()
     }
 
@@ -88,14 +91,103 @@ def mars_facts(browser):
     try:
         # Store Mars facts table into DataFrame
         df = pd.read_html(facts_url)[0]
-        df.columns = ['description', 'value']
-        df.set_index('description', inplace=True)
+        df.columns = ['', 'Mars', 'Earth']
+        df.set_index('', inplace=True)
         df
     except BaseException:
         return None
 
     # Convert dataframe to html
     return df.to_html()
+
+
+def mars_earth_comp(browser):
+
+    # Scrape Mars facts
+
+    # Visit space-facts.com
+    facts_url = 'https://space-facts.com/mars/'
+    # browser.visit(facts_url)
+
+    try:
+        # Store Mars facts table into DataFrame
+        df = pd.read_html(facts_url)[1]
+        df.columns = ['', 'Mars', 'Earth']
+        df.set_index('', inplace=True)
+        df
+    except BaseException:
+        return None
+
+    # Convert dataframe to html
+    return df.to_html()
+
+
+def mars_earth_image(browser):
+
+    facts_url = 'https://space-facts.com/mars/'
+    browser.visit(facts_url)
+
+    try:
+        img_link = soup(browser.html, 'html.parser').find(
+            'img', class_='wp-image-6263').get('src')
+
+    except AttributeError:
+        return None
+
+    return f'{img_link}'
+
+
+def hemi_photos(browser):
+
+    # Visit webpage
+    base_url = 'https://astrogeology.usgs.gov'
+    hemisphere_url = f'{base_url}/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
+    browser.visit(hemisphere_url)
+
+    # Get list of links to each hemisphere page
+    item_links = soup(browser.html, 'html.parser').find_all(
+        'a', class_='itemLink product-item')
+    links = []
+    for item in item_links:
+        rel_link = item.get('href')
+        new_link = f'{base_url}{rel_link}'
+        if new_link in links:
+            continue
+        else:
+            links.append(new_link)
+    links
+
+    # create list to hold dictionaries of each hemisphere's image link and title
+    hemispheres = []
+
+    # Populate dictionary
+    for link in links:
+
+        # Visit page for hemisphere
+        browser.visit(link)
+
+        hemi_dict = {}
+
+        # Get link to full resolution photo
+        img_rel_link = soup(browser.html, 'html.parser').find_all(
+            'img', class_='wide-image')
+        img_rel_link = img_rel_link[0].get('src')
+        hemi_link = f'{base_url}{img_rel_link}'
+        hemi_dict['img_link'] = hemi_link
+
+        # Get Hemisphere name from link
+        hemi_words = link.split('/')
+        hemisphere = hemi_words[-1].split('_')[0:-1]
+        hemi_name = ''
+        for word in hemisphere:
+            hemi_name = hemi_name + ' ' + \
+                word[0].upper() + word[1:]
+        hemi_name = hemi_name[1:] + ' Hemisphere'
+        hemi_dict['title'] = hemi_name
+
+        hemispheres.append(hemi_dict)
+
+    return hemispheres
 
 
 if __name__ == '__main__':
