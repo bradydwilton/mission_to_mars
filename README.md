@@ -144,4 +144,4 @@ Web scraping with Python, Splinter, and BeautifulSoup to create a Flask applicat
 ```
 
 ## Run the App!
-With all elements complete, the final step is to set the environment variable `FLASK_APP` equal to `app.py` (within the working dir). Once done, run `app.py` from a terminal and view the page in your browser at port 5000 of localhost (`127.0.0.1:5000` or `localhost:5000`)
+With all elements complete, the final step is to set the environment variable `FLASK_APP` equal to `app.py` (within the working dir). Once done, run `app.py` from a terminal and view a page in your browser at port 5000 of localhost (`127.0.0.1:5000` or `localhost:5000`)
