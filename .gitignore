@@ -1,8 +1,9 @@
 practice.ipynb
 module_scrape.py
-MissionToMars copy.ipynb
+MissionToMars*.ipynb
 MissionToMars.ipynb
-
+test_index.html
+*.ipynb
 
 
 # Byte-compiled / optimized / DLL files
