@@ -126,7 +126,7 @@ Web scraping with Python, Splinter, and BeautifulSoup to create a Flask applicat
           app.run()
 ```
     
-## Create index.html template to for Flask app
+### Create index.html template to for Flask app
 * Utilized [Bootstrap](https://getbootstrap.com/docs/4.1/getting-started/introduction/) elements such as the [jumbotron container](https://getbootstrap.com/docs/4.1/components/jumbotron/) to design the webpage
 ``` HTML
       <div class="jumbotron text-center">
